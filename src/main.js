@@ -5,7 +5,7 @@ import VueAxios from "vue-axios";
 import router from "./router";
 // import env from './env'
 
-const mock = true; // mock开关
+const mock = false; // mock开关
 if (mock) {
   require("./mock/api");
 }
