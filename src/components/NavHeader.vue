@@ -23,7 +23,64 @@
         <div class="header-menu">
           <div class="item-menu">
             <span>小米手机</span>
-            <div class="children"></div>
+            <div class="children">
+              <ul>
+                <li class="product">
+                  <a href="" target="_blank">
+                    <div class="pro-img">
+                      <img src="https://cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/f515ab05232ed14ccd78ec67e024495a.png" alt="">
+                    </div>
+                    <div class="pro-name">小米CC9</div>
+                    <div class="pro-price">1799元</div>
+                  </a>
+                </li>
+                <li class="product">
+                  <a href="" target="_blank">
+                    <div class="pro-img">
+                      <img src="https://cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/f515ab05232ed14ccd78ec67e024495a.png" alt="">
+                    </div>
+                    <div class="pro-name">小米CC9</div>
+                    <div class="pro-price">1799元</div>
+                  </a>
+                </li>
+                <li class="product">
+                  <a href="" target="_blank">
+                    <div class="pro-img">
+                      <img src="https://cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/f515ab05232ed14ccd78ec67e024495a.png" alt="">
+                    </div>
+                    <div class="pro-name">小米CC9</div>
+                    <div class="pro-price">1799元</div>
+                  </a>
+                </li>
+                <li class="product">
+                  <a href="" target="_blank">
+                    <div class="pro-img">
+                      <img src="https://cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/f515ab05232ed14ccd78ec67e024495a.png" alt="">
+                    </div>
+                    <div class="pro-name">小米CC9</div>
+                    <div class="pro-price">1799元</div>
+                  </a>
+                </li>
+                <li class="product">
+                  <a href="" target="_blank">
+                    <div class="pro-img">
+                      <img src="https://cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/f515ab05232ed14ccd78ec67e024495a.png" alt="">
+                    </div>
+                    <div class="pro-name">小米CC9</div>
+                    <div class="pro-price">1799元</div>
+                  </a>
+                </li>
+                <li class="product">
+                  <a href="" target="_blank">
+                    <div class="pro-img">
+                      <img src="https://cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/f515ab05232ed14ccd78ec67e024495a.png" alt="">
+                    </div>
+                    <div class="pro-name">小米CC9</div>
+                    <div class="pro-price">1799元</div>
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
           <div class="item-menu">
             <span>Redmi红米</span>
@@ -54,6 +111,7 @@ export default {
 <style lang="scss">
   @import "../assets/scss/base.scss";
   @import "../assets/scss/mixin.scss";
+  @import "../assets/scss/config.scss";
   .header {
     .nav-topbar {
       height: 39px;
@@ -81,6 +139,7 @@ export default {
     }
     .nav-header {
       .container {
+        position: relative;
         height: 112px;
         @include flex();
         .header-logo {
@@ -122,7 +181,61 @@ export default {
               cursor: pointer;
             }
             &:hover {
-
+              color: $colorA;
+              .chlldren {
+                height: 220px;
+              }
+            }
+            .children {
+              position: absolute;
+              top: 112px;
+              left: 0;
+              width: 1226px;
+              height: 220px;
+              border-top: 1px solid #e5e5e5;
+              box-shadow: 0px 7px 6px 0px rgba(0, 0, 0, 0.11);
+              z-index: 10;
+              .product {
+                position: relative;
+                float: left;
+                width: 16.6%;
+                height: 220px;
+                font-size: 12px;
+                line-height: 12px;
+                text-align: center;
+                a {
+                  display: inline-block;
+                }
+                img {
+                  width: auto;
+                  height: 111px;
+                  margin-top: 26px;
+                }
+                .pro-img {
+                  height: 137px;
+                }
+                .pro-name {
+                  font-weight: bold;
+                  margin-top: 19px;
+                  margin-bottom: 8px;
+                  color: $colorB;
+                }
+                .pro-price {
+                  color: $colorA;
+                }
+                &:before {
+                  content: "";
+                  position: absolute;
+                  top: 28px;
+                  right: 0;
+                  border-left: 1px solid $colorF;
+                  height: 100px;
+                  width: 1px;
+                }
+                &:last-child:before {
+                  display: none;
+                }
+              }
             }
           }
         }
