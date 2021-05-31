@@ -1,5 +1,5 @@
 <template>
-<div>OrderFooter</div>
+  <div></div>
 </template>
 
 <script>
