@@ -87,14 +87,14 @@
           <div class="list-box">
             <div class="list" v-for="(arr, index) in phoneList" :key="index">
               <div class="item" v-for="(item, i) in arr" :key="i">
-                <span>新品</span>
+                <span v-bind:class="{'new-pro':i%2==0}">新品</span>
                 <div class="item-img">
-                  <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/6f2493e6c6fe8e2485c407e5d75e3651.jpg" alt="" />
+                  <img :src="item.mainImage" alt="" />
                 </div>
                 <div class="item-info">
-                  <h3>小米9</h3>
-                  <p>骁龙855，索尼4800万超广角微距</p>
-                  <p class="price">2999元</p>
+                  <h3>{{ item.name }}</h3>
+                  <p>{{ item.subTitle }}</p>
+                  <p class="price">{{ item.price }}元</p>
                 </div>
               </div>
             </div>
@@ -162,10 +162,7 @@ export default {
         [0, 0, 0, 0],
         [0, 0, 0, 0]
       ],
-      phoneList: [
-        [1, 1, 1, 1],
-        [1, 1, 1, 1]
-      ],
+      phoneList: [],
       swiperOption: {
         autoplay: true,
         loop: true,
@@ -207,7 +204,23 @@ export default {
         }
       ]
     };
-  }
+  },
+  mounted() {
+    this.init();
+  },
+  methods: {
+    init() {
+      this.axios.get('/products', {
+        params: {
+          categoryId:100012,
+          pageSize:8
+        }
+      }).then((res) => {
+        this.phoneList = [res.list.slice(0, 4),res.list.slice(4, 8)]
+      })
+    }
+  },
+
 };
 </script>
 
@@ -339,10 +352,22 @@ export default {
             background-color: $colorG;
             text-align: center;
             span {
+              display: inline-block;
+              width: 67px;
+              height: 24px;
+              color: $colorG;
+              line-height: 24px;
+              &.new-pro {
+                background-color: #73CF68;
+              }
+              &.kill-pro {
+                background-color: #E82626;
+              }
             }
             .item-img {
               img {
                 height: 195px;
+                width: 100%;
               }
             }
             .item-info {
