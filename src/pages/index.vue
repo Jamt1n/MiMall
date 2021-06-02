@@ -200,7 +200,7 @@ export default {
         },
         {
           id: "",
-          img: "/imgs/slider/slide-1.jpg"
+          img: "/imgs/slider/slide-5.jpg"
         }
       ]
     };
