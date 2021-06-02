@@ -87,7 +87,7 @@
           <div class="list-box">
             <div class="list" v-for="(arr, index) in phoneList" :key="index">
               <div class="item" v-for="(item, i) in arr" :key="i">
-                <span v-bind:class="{'new-pro':i%2==0}">新品</span>
+                <span v-bind:class="{ 'new-pro': i % 2 == 0 }">新品</span>
                 <div class="item-img">
                   <img :src="item.mainImage" alt="" />
                 </div>
@@ -103,16 +103,27 @@
       </div>
     </div>
     <service-bar></service-bar>
+    <modal
+          title="提示"
+           sure-text="查看购物车"
+           btn-type="1"
+           modal-type="middle"
+           :showModal="true">
+      <template v-slot:body>
+        <p>商品添加成功！</p>
+      </template>
+    </modal>
   </div>
 </template>
 
 <script>
+import Modal from "../components/Modal";
 import ServiceBar from "../components/ServiceBar";
 import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 import "swiper/css/swiper.css";
 export default {
   name: "index",
-  components: { ServiceBar, Swiper, SwiperSlide },
+  components: { ServiceBar, Swiper, SwiperSlide, Modal },
   data() {
     return {
       adsList: [
@@ -210,17 +221,19 @@ export default {
   },
   methods: {
     init() {
-      this.axios.get('/products', {
-        params: {
-          categoryId:100012,
-          pageSize:8
-        }
-      }).then((res) => {
-        this.phoneList = [res.list.slice(0, 4),res.list.slice(4, 8)]
-      })
+      this.axios
+        .get("/products", {
+          params: {
+            categoryId: 100012,
+            pageSize: 14
+          }
+        })
+        .then(res => {
+          res.list = res.list.slice(6, 14);
+          this.phoneList = [res.list.slice(0, 4), res.list.slice(4, 8)];
+        });
     }
-  },
-
+  }
 };
 </script>
 
@@ -358,10 +371,10 @@ export default {
               color: $colorG;
               line-height: 24px;
               &.new-pro {
-                background-color: #73CF68;
+                background-color: #73cf68;
               }
               &.kill-pro {
-                background-color: #E82626;
+                background-color: #e82626;
               }
             }
             .item-img {
