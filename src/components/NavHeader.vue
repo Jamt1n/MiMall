@@ -3,10 +3,10 @@
     <div class="nav-topbar">
       <div class="container">
         <div class="topbar-menu">
-          <a href="javasciprt:;">小米商城</a>
-          <a href="javasciprt:;">MUI</a>
-          <a href="javasciprt:;">云服务</a>
-          <a href="javasciprt:;">协议规则</a>
+          <a href="javascriprt:;">小米商城</a>
+          <a href="javascriprt:;">MUI</a>
+          <a href="javascriprt:;">云服务</a>
+          <a href="javascriprt:;">协议规则</a>
         </div>
         <div class="topbar-user">
           <a href="javasciprt:;" v-if="username">{{ username }}</a>
@@ -124,7 +124,7 @@ export default {
   filters: {
     currency(val) {
       if (!val) return "0.00";
-      return "￥" + val.toFixed(2) + "元";
+      return "￥" + parseFloat(val).toFixed(2) + "元";
     }
   },
   methods: {
