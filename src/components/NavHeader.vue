@@ -35,7 +35,7 @@
                 >
                   <a :href="'/#/product/' + item.id" target="_blank">
                     <div class="pro-img">
-                      <img :src="item.mainImage" alt="item.subtitle" />
+                      <img v-lazy="item.mainImage" alt="item.subtitle" />
                     </div>
                     <div class="pro-name">{{ item.name }}</div>
                     <div class="pro-price">{{ item.price | currency }}</div>
@@ -54,7 +54,7 @@
                 <li class="product" v-for="item in tv" :key="item.img">
                   <a href="" target="_blank">
                     <div class="pro-img">
-                      <img :src="item.img" alt="" />
+                      <img v-lazy="item.img" alt="" />
                     </div>
                     <div class="pro-name">{{ item.name }}</div>
                     <div class="pro-price">{{ item.price }}</div>
