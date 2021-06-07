@@ -12,7 +12,21 @@ export default {
       res: {}
     };
   },
+  methods: {
+    getUser() {
+      this.axios.get("/user").then(res => {
+        this.$store.dispatch("saveUserName", res.username);
+      });
+    },
+    getCartCount() {
+      this.axios.get("/carts/products/sum").then(res => {
+        this.$store.dispatch("saveCartCount", res);
+      });
+    }
+  },
   mounted() {
+    this.getUser();
+    this.getCartCount();
     // 通过easy-mock平台实现
     // this.axios.get('/user/login').then((res) => {
     //   this.res = res;
