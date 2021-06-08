@@ -5,6 +5,9 @@
         <button class="btn" @click="buy">立即购买</button>
       </template>
     </product-param>
+    <div class="h">123</div>
+    <div class="h">123</div>
+    <div class="h">123</div>
   </div>
 </template>
 
@@ -20,6 +23,9 @@ export default {
 
 <style lang="scss">
 .product {
+  .h {
+    height: 150px;
+  }
   button {
     margin-left: 10px;
   }
