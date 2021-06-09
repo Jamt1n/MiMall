@@ -14,7 +14,7 @@ export default {
   },
   methods: {
     getUser() {
-      this.axios.get("/user").then(res => {
+      this.axios.get("/user").then((res={}) => {
         this.$store.dispatch("saveUserName", res.username);
       });
     },
