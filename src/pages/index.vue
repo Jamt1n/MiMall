@@ -7,11 +7,11 @@
             <li class="menu-item">
               <a href="javascript:;">手机 电话卡</a>
               <div class="children">
-                <ul v-for="(item, index) in menuList" :key="index">
-                  <li v-for="sub in item" :key="sub.id">
-                    <a :href="sub ? '/#/product/' + sub.id : ''">
+                <ul v-for="(item, i) in menuList" v-bind:key="i">
+                  <li v-for="(sub, j) in item" v-bind:key="j">
+                    <a v-bind:href="sub ? '/#/product/' + sub.id : ''">
                       <img
-                        :src="sub ? sub.img : '/imgs/item-box-1.png'"
+                        v-bind:src="sub ? sub.img : '/imgs/item-box-1.png'"
                         alt=""
                       />
                       {{ sub ? sub.name : "小米9" }}
@@ -22,31 +22,24 @@
             </li>
             <li class="menu-item">
               <a href="javascript:;">电视 盒子</a>
-              <div class="children"></div>
             </li>
             <li class="menu-item">
               <a href="javascript:;">笔记本 平板</a>
-              <div class="children"></div>
             </li>
             <li class="menu-item">
               <a href="javascript:;">家电 插线板</a>
-              <div class="children"></div>
             </li>
             <li class="menu-item">
               <a href="javascript:;">出行 穿戴</a>
-              <div class="children"></div>
             </li>
             <li class="menu-item">
               <a href="javascript:;">智能 路由器</a>
-              <div class="children"></div>
             </li>
             <li class="menu-item">
               <a href="javascript:;">电源 配件</a>
-              <div class="children"></div>
             </li>
             <li class="menu-item">
               <a href="javascript:;">生活 箱包</a>
-              <div class="children"></div>
             </li>
           </ul>
         </div>
@@ -64,16 +57,16 @@
       </div>
       <div class="ads-box">
         <a
-          :href="'/#/product/' + item.id"
-          v-for="item in adsList"
-          :key="item.id"
+          v-bind:href="'/#/product/' + item.id"
+          v-for="(item, index) in adsList"
+          v-bind:key="index"
         >
           <img v-lazy="item.img" alt="" />
         </a>
       </div>
       <div class="banner">
-        <a :href="'/#/product/30'">
-          <img v-lazy="`/imgs/banner-1.png`" alt="" />
+        <a href="/#/product/30">
+          <img v-lazy="'/imgs/banner-1.png'" alt="" />
         </a>
       </div>
     </div>
@@ -82,18 +75,20 @@
         <h2>手机</h2>
         <div class="wrapper">
           <div class="banner-left">
-            <a href="/#/product/35"><img v-lazy="`/imgs/mix-alpha.jpg`" alt=""/></a>
+            <a href="/#/product/35"
+              ><img v-lazy="'/imgs/mix-alpha.jpg'" alt=""
+            /></a>
           </div>
           <div class="list-box">
-            <div class="list" v-for="(arr, index) in phoneList" :key="index">
-              <div class="item" v-for="(item, i) in arr" :key="i">
-                <span v-bind:class="{ 'new-pro': i % 2 == 0 }">新品</span>
+            <div class="list" v-for="(arr, i) in phoneList" v-bind:key="i">
+              <div class="item" v-for="(item, j) in arr" v-bind:key="j">
+                <span v-bind:class="{ 'new-pro': j % 2 == 0 }">新品</span>
                 <div class="item-img">
                   <img v-lazy="item.mainImage" alt="" />
                 </div>
                 <div class="item-info">
                   <h3>{{ item.name }}</h3>
-                  <p>{{ item.subTitle }}</p>
+                  <p>{{ item.subtitle }}</p>
                   <p class="price" @click="addCart(item.id)">
                     {{ item.price }}元
                   </p>
@@ -107,12 +102,12 @@
     <service-bar></service-bar>
     <modal
       title="提示"
-      sure-text="查看购物车"
-      btn-type="1"
-      modal-type="middle"
-      :showModal="showModal"
-      @submit="goToCart"
-      @cancel="showModal = false"
+      sureText="查看购物车"
+      btnType="1"
+      modalType="middle"
+      v-bind:showModal="showModal"
+      v-on:submit="goToCart"
+      v-on:cancel="showModal = false"
     >
       <template v-slot:body>
         <p>商品添加成功！</p>
@@ -120,34 +115,58 @@
     </modal>
   </div>
 </template>
-
 <script>
-import Modal from "../components/Modal";
-import ServiceBar from "../components/ServiceBar";
+import ServiceBar from "./../components/ServiceBar";
+import Modal from "./../components/Modal";
 import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 import "swiper/css/swiper.css";
 export default {
   name: "index",
-  components: { ServiceBar, Swiper, SwiperSlide, Modal },
+  components: {
+    Swiper,
+    SwiperSlide,
+    ServiceBar,
+    Modal
+  },
   data() {
     return {
-      showModal: false,
-      adsList: [
+      swiperOption: {
+        autoplay: true,
+        loop: true,
+        effect: "cube",
+        cubeEffect: {
+          shadowOffset: 100,
+          shadowScale: 0.6
+        },
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true
+        },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev"
+        }
+      },
+      slideList: [
         {
-          id: 33,
-          img: "/imgs/ads/ads-1.png"
+          id: "42",
+          img: "/imgs/slider/slide-1.jpg"
         },
         {
-          id: 48,
-          img: "/imgs/ads/ads-2.jpg"
+          id: "45",
+          img: "/imgs/slider/slide-2.jpg"
         },
         {
-          id: 45,
-          img: "/imgs/ads/ads-3.png"
+          id: "46",
+          img: "/imgs/slider/slide-3.jpg"
         },
         {
-          id: 47,
-          img: "/imgs/ads/ads-4.jpg"
+          id: "",
+          img: "/imgs/slider/slide-4.jpg"
+        },
+        {
+          id: "",
+          img: "/imgs/slider/slide-1.jpg"
         }
       ],
       menuList: [
@@ -179,47 +198,26 @@ export default {
         [0, 0, 0, 0],
         [0, 0, 0, 0]
       ],
+      adsList: [
+        {
+          id: 33,
+          img: "/imgs/ads/ads-1.png"
+        },
+        {
+          id: 48,
+          img: "/imgs/ads/ads-2.jpg"
+        },
+        {
+          id: 45,
+          img: "/imgs/ads/ads-3.png"
+        },
+        {
+          id: 47,
+          img: "/imgs/ads/ads-4.jpg"
+        }
+      ],
       phoneList: [],
-      swiperOption: {
-        autoplay: true,
-        loop: true,
-        effect: "cube",
-        cubeEffect: {
-          slideShadows: true,
-          shadow: true,
-          shadowOffset: 100,
-          shadowScale: 0.6
-        },
-        pagination: {
-          el: ".swiper-pagination"
-        },
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev"
-        }
-      },
-      slideList: [
-        {
-          id: "42",
-          img: "/imgs/slider/slide-1.jpg"
-        },
-        {
-          id: "45",
-          img: "/imgs/slider/slide-2.jpg"
-        },
-        {
-          id: "46",
-          img: "/imgs/slider/slide-3.jpg"
-        },
-        {
-          id: "",
-          img: "/imgs/slider/slide-4.jpg"
-        },
-        {
-          id: "",
-          img: "/imgs/slider/slide-5.jpg"
-        }
-      ]
+      showModal: false
     };
   },
   mounted() {
@@ -239,48 +237,47 @@ export default {
           this.phoneList = [res.list.slice(0, 4), res.list.slice(4, 8)];
         });
     },
-    addCart() {
-      this.showModal = true;
-      // this.axios.post('/carts', {
-      //   productId: id,
-      //   selected: true
-      // }).then(() => {
-      //
-      // }).catch( () => {
-      //   this.showModal = true;
-      // })
+    addCart(id) {
+      this.axios
+        .post("/carts", {
+          productId: id,
+          selected: true
+        })
+        .then(res => {
+          this.showModal = true;
+          this.$store.dispatch("saveCartCount", res.cartTotalQuantity);
+        });
     },
     goToCart() {
-      this.$router.push('/cart');
+      this.$router.push("/cart");
     }
   }
 };
 </script>
-
 <style lang="scss">
 @import "./../assets/scss/config.scss";
 @import "./../assets/scss/mixin.scss";
 .index {
   .swiper-box {
     .nav-menu {
-      box-sizing: border-box;
       position: absolute;
       width: 264px;
       height: 451px;
       z-index: 9;
       padding: 26px 0;
       background-color: #55585a7a;
+      box-sizing: border-box;
       .menu-wrap {
         .menu-item {
           height: 50px;
           line-height: 50px;
           a {
-            display: block;
             position: relative;
+            display: block;
             font-size: 16px;
             color: #ffffff;
             padding-left: 30px;
-            &::after {
+            &:after {
               position: absolute;
               right: 30px;
               top: 17.5px;
@@ -306,7 +303,6 @@ export default {
             ul {
               display: flex;
               justify-content: space-between;
-              align-items: center;
               height: 75px;
               li {
                 height: 75px;
@@ -381,17 +377,18 @@ export default {
           }
           .item {
             width: 236px;
-            height: 306px;
+            height: 302px;
             background-color: $colorG;
             text-align: center;
             span {
               display: inline-block;
               width: 67px;
               height: 24px;
-              color: $colorG;
+              font-size: 14px;
               line-height: 24px;
+              color: $colorG;
               &.new-pro {
-                background-color: #73cf68;
+                background-color: #7ecf68;
               }
               &.kill-pro {
                 background-color: #e82626;
@@ -399,8 +396,8 @@ export default {
             }
             .item-img {
               img {
-                height: 195px;
                 width: 100%;
+                height: 195px;
               }
             }
             .item-info {
@@ -416,13 +413,13 @@ export default {
                 margin: 6px auto 13px;
               }
               .price {
-                font-size: $fontJ;
                 color: #f20a0a;
+                font-size: $fontJ;
                 font-weight: bold;
                 cursor: pointer;
-                &::after {
-                  content: "";
+                &:after {
                   @include bgImg(22px, 22px, "/imgs/icon-cart-hover.png");
+                  content: " ";
                   margin-left: 5px;
                   vertical-align: middle;
                 }
