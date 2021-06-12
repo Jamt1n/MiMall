@@ -79,7 +79,7 @@ import OrderHeader from "./../components/OrderHeader";
 import Loading from "./../components/Loading";
 import NoData from "./../components/NoData";
 import { Pagination, Button } from "element-ui";
-// import infiniteScroll from 'vue-infinite-scroll'
+import infiniteScroll from 'vue-infinite-scroll'
 
 export default {
   name: "order-list",
@@ -94,9 +94,9 @@ export default {
       busy:false,//滚动加载，是否触发
     };
   },
-  // directives: {
-  //   infiniteScroll
-  // },
+  directives: {
+    infiniteScroll
+  },
   components: {
     OrderHeader,
     Loading,
@@ -118,7 +118,8 @@ export default {
         })
         .then(res => {
           this.loading = false;
-          this.list = res.list || [];
+          // this.list = this.list.concat(res.list);
+          this.list = res.list;
           this.total = res.total;
           this.showNextPage = res.hasNextPage;
           this.busy = false;
