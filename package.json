@@ -11,9 +11,10 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "qrcode": "^1.4.4",
     "swiper": "^5.3.6",
-    "vue-awesome-swiper": "^4.0.4",
     "vue": "^2.6.11",
+    "vue-awesome-swiper": "^4.0.4",
     "vue-router": "^3.5.1",
     "vuex": "^3.6.2"
   },
