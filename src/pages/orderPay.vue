@@ -75,6 +75,7 @@
 import Modal from "./../components/Modal";
 import QRCode from "qrcode";
 import ScanPayCode from "./../components/ScanPayCode";
+import OrderHeader from "../components/OrderHeader";
 
 export default {
   name: "order-pay",
@@ -94,7 +95,7 @@ export default {
   },
   components: {
     Modal,
-    ScanPayCode
+    ScanPayCode,OrderHeader
   },
   mounted() {
     this.getOrderDetail();
