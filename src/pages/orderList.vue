@@ -47,7 +47,7 @@
             </div>
           </div>
           <el-pagination
-              v-if="true"
+              v-if="list.length"
               class="pagination"
               background
               layout="prev, pager, next"
@@ -75,35 +75,59 @@
 </template>
 
 <script>
-import OrderHeader from './../components/OrderHeader'
-import Loading from './../components/Loading'
-import NoData from './../components/NoData'
-import { Pagination,Button } from 'element-ui'
-import infiniteScroll from 'vue-infinite-scroll'
+import OrderHeader from "./../components/OrderHeader";
+import Loading from "./../components/Loading";
+import NoData from "./../components/NoData";
+import { Pagination, Button } from "element-ui";
+// import infiniteScroll from 'vue-infinite-scroll'
+
 export default {
   name: "order-list",
   data() {
     return {
-      loading:true,
+      loading:false,
       list:[],
-    }
+      pageSize:10,
+      pageNum:1,
+      total:0,
+      showNextPage:true,//加载更多：是否显示按钮
+      busy:false,//滚动加载，是否触发
+    };
   },
+  // directives: {
+  //   infiniteScroll
+  // },
   components: {
-    OrderHeader,Loading,NoData,Pagination,Button,infiniteScroll
+    OrderHeader,
+    Loading,
+    NoData,
+    [Pagination.name]:Pagination,
+    [Button.name]:Button,
   },
   mounted() {
     this.getOrderList();
   },
   methods: {
     getOrderList() {
-      this.axios.get('/orders').then(res => {
-        this.loading = false;
-        this.list = [] || res.list;
-      }).catch(()=> {
-        this.loading = false;
-      })
+      this.axios
+        .get("/orders", {
+          params: {
+            pageSize:10,
+            pageNum:this.pageNum
+          }
+        })
+        .then(res => {
+          this.loading = false;
+          this.list = res.list || [];
+          this.total = res.total;
+          this.showNextPage = res.hasNextPage;
+          this.busy = false;
+        })
+        .catch(() => {
+          this.loading = false;
+        });
     },
-    goPay(orderNo){
+    goPay(orderNo) {
       // 三种路由跳转方式
       // this.$router.push('/order/pay')
       /*this.$router.push({
@@ -113,90 +137,127 @@ export default {
         }
       })*/
       this.$router.push({
-        path:'/order/pay',
-        query:{
+        path: "/order/pay",
+        query: {
           orderNo
         }
-      })
+      });
+    },
+    // 第一种方法：分页器
+    handleChange(pageNum){
+      this.pageNum = pageNum;
+      this.getOrderList();
+    },
+    // 第二种方法：加载更多按钮
+    loadMore(){
+      this.pageNum++;
+      this.getOrderList();
+    },
+    // 第三种方法：滚动加载，通过npm插件实现
+    scrollMore(){
+      this.busy = true;
+      setTimeout(()=>{
+        this.pageNum++;
+        this.getList();
+      },500);
+    },
+    // 专门给scrollMore使用
+    getList(){
+      this.loading = true;
+      this.axios.get('/orders',{
+        params:{
+          pageSize:10,
+          pageNum:this.pageNum
+        }
+      }).then((res)=>{
+        this.list = this.list.concat(res.list);
+        this.loading = false;
+        if(res.hasNextPage){
+          this.busy=false;
+        }else{
+          this.busy=true;
+        }
+      });
     },
   }
 };
 </script>
 
 <style lang="scss">
-@import './../assets/scss/config.scss';
-@import './../assets/scss/mixin.scss';
-.order-list{
-  .wrapper{
-    background-color:$colorJ;
-    padding-top:33px;
-    padding-bottom:110px;
-    .order-box{
-      .order{
+@import "./../assets/scss/config.scss";
+@import "./../assets/scss/mixin.scss";
+.order-list {
+  .wrapper {
+    background-color: $colorJ;
+    padding-top: 33px;
+    padding-bottom: 110px;
+    .order-box {
+      .order {
         @include border();
-        background-color:$colorG;
-        margin-bottom:31px;
-        &:last-child{
-          margin-bottom:0;
+        background-color: $colorG;
+        margin-bottom: 31px;
+        &:last-child {
+          margin-bottom: 0;
         }
-        .order-title{
+        .order-title {
           @include height(74px);
-          background-color:$colorK;
-          padding:0 43px;
-          font-size:16px;
-          color:$colorC;
-          .item-info{
-            span{
-              margin:0 9px;
+          background-color: $colorK;
+          padding: 0 43px;
+          font-size: 16px;
+          color: $colorC;
+          .item-info {
+            span {
+              margin: 0 9px;
             }
           }
-          .money{
-            font-size:26px;
-            color:$colorB;
+          .money {
+            font-size: 26px;
+            color: $colorB;
           }
         }
-        .order-content{
-          padding:0 43px;
-          .good-box{
-            width:88%;
-            .good-list{
+        .order-content {
+          padding: 0 43px;
+          .good-box {
+            width: 88%;
+            .good-list {
               display: flex;
               align-items: center;
-              height:145px;
-              .good-img{
-                width:112px;
-                img{
-                  width:100%;
+              height: 145px;
+              .good-img {
+                width: 112px;
+                img {
+                  width: 100%;
                 }
               }
-              .good-name{
-                font-size:20px;
-                color:$colorB;
+              .good-name {
+                font-size: 20px;
+                color: $colorB;
               }
             }
           }
-          .good-state{
+          .good-state {
             @include height(145px);
             font-size: 20px;
-            color:$colorA;
-            a{
-              color:$colorA;
+            color: $colorA;
+            a {
+              color: $colorA;
             }
           }
         }
       }
-      .pagination{
-        text-align:right;
+      .pagination {
+        text-align: right;
       }
-      .el-pagination.is-background .el-pager li:not(.disabled).active{
-        background-color: #FF6600;
+      .el-pagination.is-background .el-pager li:not(.disabled).active {
+        background-color: #ff6600;
       }
-      .el-button--primary{
-        background-color: #FF6600;
-        border-color: #FF6600;
+      .el-button--primary {
+        background-color: #ff6600;
+        border-color: #ff6600;
       }
-      .load-more,.scroll-more{
-        text-align:center;
+      .load-more,
+      .scroll-more {
+        text-align: center;
       }
     }
   }
