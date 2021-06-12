@@ -69,21 +69,31 @@ export default {
   methods: {
     login() {
       let { username, password } = this;
+      if (!username || !password) {
+        this.$message.error("请输入正确的用户名和密码");
+        return;
+      }
       this.axios
         .post("/user/login", {
           username,
           password
         })
         .then(res => {
-          this.$cookie.set("userId", res.id, { expires: "1M" });
-          // TODO vuex保存
-          // this.$store.dispatch('saveUserName', res.username);
-          this.saveUserName(res.usename);
-          this.$router.push("/index");
+          this.$cookie.set("userId", res.id, { expires: "Session" });
+          // this.$store.dispatch('saveUserName',res.username);
+          this.saveUserName(res.username);
+          this.$router.push({
+            name: "index",
+            params: {
+              from: "login"
+            }
+          });
         });
     },
     ...mapActions(["saveUserName"]),
     register() {
+      this.$message.success("功能暂未开发");
+      return;
       // let { username, password } = this;
       // this.axios.post('/user/register', {
       //   username,

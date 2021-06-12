@@ -130,13 +130,13 @@ export default {
     };
   },
   computed: {
-    /*username(){
+    username(){
       return this.$store.state.username;
     },
-    cartCount(){
+    /*cartCount(){
       return this.$store.state.cartCount;
     }*/
-    ...mapState(["username", "cartCount"])
+    ...mapState(["cartCount"])
   },
   filters: {
     currency(val) {

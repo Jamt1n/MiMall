@@ -9,24 +9,26 @@ export default {
   name: "App",
   data() {
     return {
-      res: {}
+      // res: {}
     };
   },
   methods: {
     getUser() {
-      this.axios.get("/user").then((res={}) => {
+      this.axios.get("/user").then((res = {}) => {
         this.$store.dispatch("saveUserName", res.username);
       });
     },
     getCartCount() {
-      this.axios.get("/carts/products/sum").then(res => {
+      this.axios.get("/carts/products/sum").then((res = 0) => {
         this.$store.dispatch("saveCartCount", res);
       });
     }
   },
   mounted() {
-    this.getUser();
-    this.getCartCount();
+    if (this.$cookie.get("userId")) {
+      this.getUser();
+      this.getCartCount();
+    }
     // 通过easy-mock平台实现
     // this.axios.get('/user/login').then((res) => {
     //   this.res = res;
