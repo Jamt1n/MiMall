@@ -21,12 +21,12 @@ export default new Router({
         {
           path: "/product/:id",
           name: "product",
-          component: resolve => require(["./pages/index.vue"], resolve)
+          component: ()=>import('./pages/product.vue')
         },
         {
           path: "/detail/:id",
           name: "detail",
-          component: resolve => require(["./pages/detail.vue"], resolve)
+          component: ()=>import('./pages/detail.vue')
         }
       ]
     },
